@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         path: "signup",
         element: <Signup/>
     }
-])
+], {basename:"/crm_logistic"})
 root.render(
     <React.StrictMode>
         <Provider store={store}>
@@ -51,7 +51,7 @@ root.render(
                 breakpoints={['xl', 'lg', 'md', 'xs']}
                 minBreakpoint="xs"
             >
-                <RouterProvider router={router}/>
+                <RouterProvider router={router} />
             </ThemeProvider>
         </Provider>
     </React.StrictMode>
