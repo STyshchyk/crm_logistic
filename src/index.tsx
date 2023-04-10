@@ -5,45 +5,15 @@ import {store} from './app/store';
 import './Apps.scss';
 import reportWebVitals from './reportWebVitals';
 import {ThemeProvider} from "react-bootstrap"
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import MainLayout from "./Pages/MainLayout";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
+import {RouterProvider} from "react-router-dom";
 import "./Apps.scss"
 import './index.scss';
 import 'bootstrap/scss/bootstrap.scss';
-import About from "./Pages/About";
-import Users from "./Pages/Users";
-import Trips from "./Pages/Trips";
+import {router} from "./router";
+
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
-
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <MainLayout/>,
-        errorElement: <h1>Error element</h1>,
-        children: [{
-            path: "/",
-            element: <Trips/>
-        }, {
-            path: "users",
-            element: <Users/>
-        }, {
-            path: "about",
-            element: <About/>
-        }]
-    },
-    {
-        path: "/login",
-        element: <Login/>
-    },
-    {
-        path: "/signup",
-        element: <Signup/>
-    }
-], {basename:"/crm_logistic/"})
 root.render(
     <React.StrictMode>
         <Provider store={store}>

@@ -4,6 +4,7 @@ import React from "react";
 import {createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, signInWithPopup} from "firebase/auth";
 import {addFireStore, app, collectionType, db, faceProvider, IFireUser, provider} from "../firebase";
 import {useNavigate} from "react-router-dom";
+import {routes} from "../router";
 
 export interface IsAuthHook {
     isAuth: boolean,
@@ -51,7 +52,7 @@ export function useSignUp() {
                     .catch(e => console.log("Error writing firebase"))
 
                 console.log("signed thru google")
-                navigate("/");
+                navigate(`${routes.main}`)
             }).catch((error) => {
                 console.log(error)
             })
@@ -69,7 +70,7 @@ export function useSignUp() {
                     addFireStore({db: db, setCollection: collectionType.users, addUser: writeUser})
                         .then(r => console.log("Wrote firebase"))
                         .catch(e => console.log("Error writing firebase"))
-                    navigate("/");
+                    navigate(`${routes.main}`)
                 }).catch((error) => {
                     console.log(error)
                     alert(error);
@@ -79,7 +80,7 @@ export function useSignUp() {
             .then((result) => {
                 // The signed-in user info.
                 const user = result.user;
-                navigate("/");
+                navigate(`${routes.main}`)
                 // ...
             })
             .catch((error) => {

@@ -4,6 +4,7 @@ import React from "react";
 import {onAuthStateChanged} from "firebase/auth";
 import {auth} from "../firebase";
 import {useNavigate} from "react-router-dom";
+import {routes} from "../router";
 
 export interface IsAuthHook {
     isAuth: boolean,
@@ -41,8 +42,8 @@ export function IsAuth():
                     name: user.displayName,
                     number: user.phoneNumber,
                 }))
-                navigate("/")
-            }
+                navigate(`${routes.main}`)
+            }else  navigate(`${routes.login}`)
         })
     }, [])
 

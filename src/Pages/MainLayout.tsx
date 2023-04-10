@@ -9,6 +9,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import {GiHamburgerMenu} from "react-icons/all";
 import Burger from "../Components/Burger";
 import {Container, ListGroup} from "react-bootstrap";
+import {routes} from "../router";
 
 const MainLayout = () => {
     const [show, setShow] = React.useState(false);
@@ -16,6 +17,10 @@ const MainLayout = () => {
     const {isAuth, email} = IsAuth();
     const {isError, errorMsg, handleLogOut} = useLogOut();
     const user = useAppSelector(selectUser)
+
+    React.useEffect(()=>{
+        if (!isAuth)navigate(`${routes.login}`)
+    }, [])
 
     if (isError)console.log(errorMsg)
     return (

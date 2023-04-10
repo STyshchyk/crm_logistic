@@ -8,11 +8,6 @@ interface IAuth {
 
 const AuthProvider = ({children}: IAuth) => {
     const {isAuth, email} = IsAuth();
-    const navigate = useNavigate();
-    // useEffect(() => {
-    //     if (isAuth) navigate("/")
-    //     else navigate("/login")
-    // }, [])
 
     return (
         <div className={"auth-container"}>

@@ -12,6 +12,7 @@ import {signInWithEmailAndPassword} from "firebase/auth";
 import {useAppDispatch} from "../app/hooks";
 import {userSlice} from "../app/Slices/userSlice";
 import {AuthType_, useSignUp} from "../hooks/useSignUp";
+import {routes} from "../router";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Login = () => {
                     name: user.displayName,
                     number: user.phoneNumber,
                 }))
-                navigate("/")
+                 navigate(`${routes.main}`)
                 // ...
             })
             .catch((error) => {

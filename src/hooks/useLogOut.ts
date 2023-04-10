@@ -4,6 +4,7 @@ import React from "react";
 import {getAuth, signOut} from "firebase/auth";
 import {app} from "../firebase";
 import {useNavigate} from "react-router-dom";
+import {routes} from "../router";
 
 export interface IsAuthHook {
     isError: boolean
@@ -24,14 +25,14 @@ export function useLogOut(): IsAuthHook {
         if (auth.currentUser) {
             signOut(auth).then(() => {
                 dispatch(deleteUser())
-                navigate("login");
+                navigate(`${routes.login}`)
             }).catch((error) => {
                 console.log("// An error happened.", error)
                 setError({error: `${error}`, isError: true})
             });
         }else{
             dispatch(deleteUser())
-            navigate("/")
+            navigate(`${routes.login}`)
         }
 
     }
