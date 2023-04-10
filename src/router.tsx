@@ -8,8 +8,8 @@ import Signup from "./Pages/Signup";
 import React from "react";
 
 export enum routes {
-    main = "/main",
-    trips = "/main",
+    main = "/",
+    trips = "/",
     users = "users",
     about = "about",
     login = "/login",
@@ -40,8 +40,12 @@ export const router = createBrowserRouter([
         path: routes.signup,
         element: <Signup/>
     },
+    {
+        path: "/*",
+        element: <Login/>
+    }
 
 
-], {basename: "/crm_logistic/"})
+], {basename: "/crm_logistic"})
 
 
