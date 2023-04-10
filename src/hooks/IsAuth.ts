@@ -42,8 +42,8 @@ export function IsAuth():
                     name: user.displayName,
                     number: user.phoneNumber,
                 }))
-                navigate(`${routes.main}`)
-            }else  navigate(`${routes.login}`)
+               // navigate(`${routes.main}`)
+            }//else  navigate(`${routes.login}`)
         })
     }, [])
 

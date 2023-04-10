@@ -7,43 +7,41 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import React from "react";
 
+export enum routes {
+    main = "/main",
+    trips = "/main",
+    users = "users",
+    about = "about",
+    login = "/login",
+    signup = "/signup"
+}
+
 export const router = createBrowserRouter([
     {
-        path: "/main",
+        path: routes.main,
         element: <MainLayout/>,
         errorElement: <h1>Error element</h1>,
         children: [{
-            index : true,
+            index: true,
             element: <Trips/>
         }, {
-            path: "users",
+            path: routes.users,
             element: <Users/>
         }, {
-            path: "about",
+            path: routes.about,
             element: <About/>
         }]
     },
     {
-        path: "login",
+        path: routes.login,
         element: <Login/>
     },
     {
-        path: "signup",
+        path: routes.signup,
         element: <Signup/>
     },
-    {
-        path: "/*",
-        element: <Login/>
-    }
-
-], {basename:"/crm_logistic/"})
 
 
-export  enum routes{
-    main="/main",
-    trips="trips",
-    users="users",
-    about="about",
-    login="login",
-    signup="signup"
-}
+], {basename: "/crm_logistic/"})
+
+

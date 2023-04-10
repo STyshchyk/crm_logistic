@@ -28,9 +28,9 @@ const MainLayout = () => {
             <Container>
                 <Burger>
                     <ListGroup variant="flush">
-                        <ListGroup.Item><Link to={"/"}>Trips</Link></ListGroup.Item>
-                        <ListGroup.Item><Link to={"/users"}>Users</Link></ListGroup.Item>
-                        <ListGroup.Item><Link to={"/about"}>About</Link></ListGroup.Item>
+                        <ListGroup.Item><Link to={`${routes.trips}`}>Trips</Link></ListGroup.Item>
+                        <ListGroup.Item><Link to={`${routes.users}`}>Users</Link></ListGroup.Item>
+                        <ListGroup.Item><Link to={`${routes.about}`}>About</Link></ListGroup.Item>
                         <ListGroup.Item>
                             <Button variant="danger"
                                     onClick={handleLogOut}
