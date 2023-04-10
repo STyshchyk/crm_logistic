@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <MainLayout/>,
         errorElement: <h1>Error element</h1>,
         children: [{
-            path: "",
+            path: "/",
             element: <Trips/>
         }, {
             path: "users",
@@ -36,11 +36,11 @@ const router = createBrowserRouter([
         }]
     },
     {
-        path: "login",
+        path: "/login",
         element: <Login/>
     },
     {
-        path: "signup",
+        path: "/signup",
         element: <Signup/>
     }
 ], {basename:"/crm_logistic"})
