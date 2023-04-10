@@ -19,6 +19,9 @@ const Trips = () => {
                 console.log(result)
 
             })
+            .catch(error=>{
+                console.log(error)
+            })
         setIssend(false)
         console.log('asda')
     }, [isSend])

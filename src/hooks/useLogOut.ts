@@ -20,7 +20,7 @@ export function useLogOut(): IsAuthHook {
     const navigate = useNavigate();
 
     function handleLogOut() {
-        console.log("attemp to log")
+        console.log(auth.currentUser)
         if (auth.currentUser) {
             signOut(auth).then(() => {
                 dispatch(deleteUser())
@@ -29,6 +29,9 @@ export function useLogOut(): IsAuthHook {
                 console.log("// An error happened.", error)
                 setError({error: `${error}`, isError: true})
             });
+        }else{
+            dispatch(deleteUser())
+            navigate("/")
         }
 
     }

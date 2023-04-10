@@ -1,10 +1,7 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp} from 'firebase/app';
-import {collection, Firestore, getDocs, getFirestore, addDoc} from 'firebase/firestore/lite';
-import {getAuth, GoogleAuthProvider, FacebookAuthProvider} from "firebase/auth";
-
-import firebase from "firebase/compat/app";
-import {IUser} from "./app/Slices/userSlice";
+import {addDoc, collection, Firestore, getDocs, getFirestore, doc, onSnapshot} from 'firebase/firestore';
+import {FacebookAuthProvider, getAuth, GoogleAuthProvider} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,8 +23,8 @@ export const auth = getAuth(app);
 export const db: Firestore = getFirestore(app);
 
 export enum collectionType {
-    users= "users",
-    trips= "trips"
+    users = "users",
+    trips = "trips"
 }
 
 export interface IStore {
@@ -60,15 +57,30 @@ export interface ISetStore {
     addTrip?: IFireTrip
 }
 
-// Get a list of cities from your database
-export async function getFireStore({db, setCollection }: IStore) {
+export async function getFireStore({db, setCollection}: IStore) {
     const citySnapshot = await getDocs(collection(db, setCollection));
-    return citySnapshot.docs.map(doc =>({
+    return citySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
     }))
+
+
 }
 
+// export async function getFireStore({db, setCollection}: IStore) {
+//     const arrData: any = [];
+//     const col = collection(db, "users")
+//    const unsub = await  onSnapshot(col, (col) =>{
+//         col.docs.forEach(elem =>{
+//             arrData.push({
+//                 id: elem.id,
+//                 ...elem.data()
+//             })
+//        })
+//    })
+//   return arrData;
+//
+// }
 export async function addFireStore({db, setCollection, addUser, addTrip}: ISetStore) {
     try {
         const citySnapshot = await addDoc(collection(db, setCollection), {...addUser, ...addTrip});
