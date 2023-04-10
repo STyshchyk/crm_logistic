@@ -10,14 +10,22 @@ const Trips = () => {
 
     const headers: string[] = ["driverId", "driverName", "destination", "origin", "passangersAmount", "vehiclePlateNumber"]
     const [tableData, setTableData] = React.useState<IFireTrip[]>()
+    const [isSend, setIssend] = React.useState(false)
     const [isOpen, setOpen] = React.useState(false)
     React.useEffect(() => {
         getFireStore({db: db, setCollection: collectionType.trips})
             .then((result: any) => {
                 setTableData(result)
-            })
-    }, [])
+                console.log(result)
 
+            })
+        setIssend(false)
+        console.log('asda')
+    }, [isSend])
+function getData(data : any){
+        setIssend(true)
+
+}
     return (
         <Container>
             <Row>
@@ -41,7 +49,7 @@ const Trips = () => {
                 })}
             </MyTable>
             <MyModal isHide={isOpen} setHide={()=>setOpen(false)} header={"Add new Trip"}>
-                <MyForm headers={headers}/>
+                <MyForm headers={headers} getData={getData}/>
             </MyModal>
         </Container>
     );

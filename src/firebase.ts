@@ -55,7 +55,7 @@ export interface IFireTrip {
 
 export interface ISetStore {
     db: Firestore,
-    setCollection: string,
+    setCollection: collectionType
     addUser?: IFireUser
     addTrip?: IFireTrip
 }

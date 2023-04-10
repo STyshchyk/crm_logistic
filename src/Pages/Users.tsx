@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import MyTable from "../Components/MyTable/MyTable";
-import {collectionType, db, getFireStore, IFireUser} from "../firebase";
+import {addFireStore, collectionType, db, getFireStore, IFireUser} from "../firebase";
 import Button from "react-bootstrap/Button";
 import MyModal from "../Components/MyModal/MyModal";
 import MyForm from "../Components/MyForm/MyForm";
@@ -13,14 +13,25 @@ const Users = () => {
     const headers: string[] = ["id", "name", "email", "number", "role"]
     const [tableData, setTableData] = React.useState<IUsers[]>()
     const [isOpen, setOpen] = React.useState(false)
+    const [isSend, setIsSend] = React.useState(false)
     React.useEffect(() => {
         getFireStore({db: db, setCollection: collectionType.users})
             .then((result: any) => {
                 console.log(result)
                 setTableData(result)
             })
-    }, [])
-
+        setIsSend(false)
+        console.log("Effect")
+    }, [isSend])
+    function getValue(data:any){
+        addFireStore({db: db, setCollection: collectionType.users, addUser: data})
+            .then(result =>{
+                setIsSend(true)
+            })
+            .catch(error =>{
+                console.log(error)
+            })
+    }
 
     return (
         <Container>
@@ -48,7 +59,7 @@ const Users = () => {
                 })}
             </MyTable>
             <MyModal isHide={isOpen} setHide={()=>{setOpen(false)}} header={"Add new user"}>
-                <MyForm headers={headers}/>
+                <MyForm headers={headers} getData={getValue}/>
             </MyModal>
         </Container>
     );

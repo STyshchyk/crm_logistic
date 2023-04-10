@@ -6,14 +6,15 @@ import styles from "./MyForm.module.scss"
 
 interface IForm {
     headers: string[];
+    getData: (data: any)=>void
 }
 
-const MyForm = ({headers}: IForm) => {
+const MyForm = ({headers, getData}: IForm) => {
 
     const {register, handleSubmit, formState: {errors}} = useForm({
         mode: "onChange"
     });
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => getData(data);
 
      return (
         <Form onSubmit={handleSubmit(onSubmit)}>

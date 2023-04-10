@@ -2,7 +2,7 @@ import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {selectUser, userSlice} from "../app/Slices/userSlice";
 import React from "react";
 import {createUserWithEmailAndPassword, FacebookAuthProvider, getAuth, signInWithPopup} from "firebase/auth";
-import {addFireStore, app, db, faceProvider, IFireUser, provider} from "../firebase";
+import {addFireStore, app, collectionType, db, faceProvider, IFireUser, provider} from "../firebase";
 import {useNavigate} from "react-router-dom";
 
 export interface IsAuthHook {
@@ -46,7 +46,7 @@ export function useSignUp() {
                     role: "Admin",
                     number: cred.user.phoneNumber
                 }
-                addFireStore({db: db, setCollection: "users", addUser: writeUser})
+                addFireStore({db: db, setCollection: collectionType.users, addUser: writeUser})
                     .then(r => console.log("Wrote firebase"))
                     .catch(e => console.log("Error writing firebase"))
 
@@ -66,7 +66,7 @@ export function useSignUp() {
                         role: "Admin",
                         number: cred.user.phoneNumber
                     }
-                    addFireStore({db: db, setCollection: "users", addUser: writeUser})
+                    addFireStore({db: db, setCollection: collectionType.users, addUser: writeUser})
                         .then(r => console.log("Wrote firebase"))
                         .catch(e => console.log("Error writing firebase"))
                     navigate("/");
