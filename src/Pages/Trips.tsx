@@ -11,7 +11,6 @@ const Trips = () => {
 
     const headers: string[] = ["driverID", "driverName", "destination", "origin", "passangersAmount", "vehiclePlateNumber"]
     const [tableData, setTableData] = React.useState<IFireTrip[]>()
-    const [isSend, setIssend] = React.useState(false)
     const [isOpen, setOpen] = React.useState(false)
     React.useEffect(() => {
         console.log("hello")
