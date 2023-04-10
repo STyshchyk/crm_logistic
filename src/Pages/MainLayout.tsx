@@ -17,7 +17,7 @@ const MainLayout = () => {
     const {isError, errorMsg, handleLogOut} = useLogOut();
     const user = useAppSelector(selectUser)
 
-
+    if (isError)console.log(errorMsg)
     return (
         <div className={"app"}>
             <Container>

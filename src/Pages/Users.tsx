@@ -5,7 +5,7 @@ import {addFireStore, collectionType, db, getFireStore, IFireUser} from "../fire
 import Button from "react-bootstrap/Button";
 import MyModal from "../Components/MyModal/MyModal";
 import MyForm from "../Components/MyForm/MyForm";
-
+import {doc, onSnapshot } from "firebase/firestore"
 interface IUsers extends IFireUser{
     id: string
 }
@@ -23,6 +23,10 @@ const Users = () => {
         setIsSend(false)
         console.log("Effect")
     }, [isSend])
+    const unsub = onSnapshot(doc(db, "cities"), (doc) => {
+        const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+        console.log(source, " data: ", doc.data());
+    })
     function getValue(data:any){
         addFireStore({db: db, setCollection: collectionType.users, addUser: data})
             .then(result =>{
@@ -32,7 +36,6 @@ const Users = () => {
                 console.log(error)
             })
     }
-
     return (
         <Container>
             <Row>
