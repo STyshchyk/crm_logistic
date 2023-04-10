@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/crm_logistic/static/css/main.5aebe292.css",
+    "main.css": "/crm_logistic/static/css/main.7af61c40.css",
     "main.js": "/crm_logistic/static/js/main.082d964a.js",
     "static/js/787.926c57ce.chunk.js": "/crm_logistic/static/js/787.926c57ce.chunk.js",
     "index.html": "/crm_logistic/index.html",
-    "main.5aebe292.css.map": "/crm_logistic/static/css/main.5aebe292.css.map",
+    "main.7af61c40.css.map": "/crm_logistic/static/css/main.7af61c40.css.map",
     "main.082d964a.js.map": "/crm_logistic/static/js/main.082d964a.js.map",
     "787.926c57ce.chunk.js.map": "/crm_logistic/static/js/787.926c57ce.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5aebe292.css",
+    "static/css/main.7af61c40.css",
     "static/js/main.082d964a.js"
   ]
 }
