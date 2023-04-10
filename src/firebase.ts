@@ -57,30 +57,30 @@ export interface ISetStore {
     addTrip?: IFireTrip
 }
 
-export async function getFireStore({db, setCollection}: IStore) {
-    const citySnapshot = await getDocs(collection(db, setCollection));
-    return citySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
-
-
-}
-
 // export async function getFireStore({db, setCollection}: IStore) {
-//     const arrData: any = [];
-//     const col = collection(db, "users")
-//    const unsub = await  onSnapshot(col, (col) =>{
-//         col.docs.forEach(elem =>{
-//             arrData.push({
-//                 id: elem.id,
-//                 ...elem.data()
-//             })
-//        })
-//    })
-//   return arrData;
+//     const citySnapshot = await getDocs(collection(db, setCollection));
+//     return citySnapshot.docs.map(doc => ({
+//         id: doc.id,
+//         ...doc.data()
+//     }))
+//
 //
 // }
+
+export async function getFireStore({db, setCollection}: IStore) {
+    const arrData: any = [];
+    const col = collection(db, "users")
+   const unsub = await  onSnapshot(col, (col) =>{
+        col.docs.forEach(elem =>{
+            arrData.push({
+                id: elem.id,
+                ...elem.data()
+            })
+       })
+   })
+
+  return arrData;
+}
 export async function addFireStore({db, setCollection, addUser, addTrip}: ISetStore) {
     try {
         const citySnapshot = await addDoc(collection(db, setCollection), {...addUser, ...addTrip});

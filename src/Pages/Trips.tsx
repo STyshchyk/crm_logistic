@@ -1,34 +1,44 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
-import {collectionType, db, getFireStore, IFireTrip} from "../firebase";
+import {addFireStore, collectionType, db, getFireStore, IFireTrip} from "../firebase";
 import {Col, Container, Row} from "react-bootstrap";
 import MyTable from "../Components/MyTable/MyTable";
 import MyModal from "../Components/MyModal/MyModal";
 import MyForm from "../Components/MyForm/MyForm";
+import {collection, onSnapshot} from "firebase/firestore";
 
 const Trips = () => {
 
-    const headers: string[] = ["driverId", "driverName", "destination", "origin", "passangersAmount", "vehiclePlateNumber"]
+    const headers: string[] = ["driverID", "driverName", "destination", "origin", "passangersAmount", "vehiclePlateNumber"]
     const [tableData, setTableData] = React.useState<IFireTrip[]>()
     const [isSend, setIssend] = React.useState(false)
     const [isOpen, setOpen] = React.useState(false)
     React.useEffect(() => {
-        getFireStore({db: db, setCollection: collectionType.trips})
-            .then((result: any) => {
-                setTableData(result)
-                console.log(result)
-
+        console.log("hello")
+        const unsub = onSnapshot(collection(db, "trips"), (col) => {
+            let data: any = col.docs.map(elem => {
+                return {
+                    ...elem.data(),
+                    docID: elem.id
+                }
             })
-            .catch(error=>{
+            console.log(data)
+            setTableData(data)
+        })
+               return ()=>{
+            unsub();
+        }
+    }, [])
+
+    function getValue(data: any) {
+        addFireStore({db: db, setCollection: collectionType.trips, addTrip: data})
+            .then(result => {
+                console.log("data sent to firestore")
+            })
+            .catch(error => {
                 console.log(error)
             })
-        setIssend(false)
-        console.log('asda')
-    }, [isSend])
-function getData(data : any){
-        setIssend(true)
-
-}
+    }
     return (
         <Container>
             <Row>
@@ -40,8 +50,8 @@ function getData(data : any){
                 </Col>
             </Row>
             <MyTable tableHeaders={headers}>
-                {tableData && tableData.map((value: any) => {
-                    return <tr key={value.id}>
+                { tableData && tableData.map((value: any) => {
+                    return <tr key={value.docID}>
                         <td>{value.driverID}</td>
                         <td>{value.driverName}</td>
                         <td>{value.destination}</td>
@@ -52,7 +62,7 @@ function getData(data : any){
                 })}
             </MyTable>
             <MyModal isHide={isOpen} setHide={()=>setOpen(false)} header={"Add new Trip"}>
-                <MyForm headers={headers} getData={getData}/>
+                <MyForm headers={headers} getData={getValue}/>
             </MyModal>
         </Container>
     );
