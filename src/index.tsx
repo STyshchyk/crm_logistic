@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup/>
     }
-], {basename:"/crm_logistic"})
+], {basename:"/crm_logistic/"})
 root.render(
     <React.StrictMode>
         <Provider store={store}>
