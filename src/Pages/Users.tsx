@@ -18,9 +18,9 @@ const Users = () => {
     const headers: string[] = ["id", "name", "email", "number", "role"]
     const [tableData, setTableData] = React.useState<{}[]>()
     const [isOpen, setOpen] = React.useState(false)
-    const [isSend, setIsSend] = React.useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = React.useState(false)
+    const [docID, setDocID] = React.useState(-1);
     React.useEffect(() => {
-        console.log("hello")
         const unsub = onSnapshot(collection(db, "users"), (col) => {
             let data: any = col.docs.map(elem => {
                 return {
@@ -30,8 +30,7 @@ const Users = () => {
             })
             setTableData(data)
         })
-        setIsSend(false)
-        return ()=>{
+        return () => {
             unsub();
         }
     }, [])
@@ -39,29 +38,41 @@ const Users = () => {
     function getValue(data: any) {
         addFireStore({db: db, setCollection: collectionType.users, addUser: data})
             .then(result => {
-                setIsSend(true)
+                console.log(result)
             })
             .catch(error => {
                 console.log(error)
             })
     }
-    async  function handleEdit(docId: string) {
-       // const tripsRed = doc(db, "users", docId);
-        console.log("Doc id", docId)
-        // await updateDoc(tripsRed, {
-        //     passangersAmount: "20"
-        // });
+
+    async function handleEdit(data: any, docId?: string) {
+        const tripsRef = doc(db, "users", `${data.id}`);
+        await updateDoc(tripsRef, {
+            ...data
+        });
     }
-    async  function handleDelete(docId: string) {
+
+    async function handleDelete(docId: string) {
         console.log("Doc id", docId)
         const tripsRed = doc(db, "users", docId);
         await deleteDoc(tripsRed)
-            .then(res =>{
-            console.log(res)
-        })
-            .catch(error=>{})
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => {
+            })
         console.log(error)
     }
+
+    function openModal(id: number) {
+        setIsEditModalOpen(true)
+        setDocID(id)
+    }
+
+    function handleClose() {
+        setIsEditModalOpen(false)
+    }
+
     return (
         <Container>
             <Row>
@@ -77,7 +88,7 @@ const Users = () => {
                 </Col>
             </Row>
             <MyTable tableHeaders={headers}>
-                {tableData && Array.isArray(tableData) && tableData.map((value: any) => {
+                {tableData && Array.isArray(tableData) && tableData.map((value: any, index: number) => {
                     return <tr key={value.id}>
                         <td>{value.id}</td>
                         <td>{value.name}</td>
@@ -88,8 +99,7 @@ const Users = () => {
                             <Button
                                 variant="outline-primary"
                                 className={"m0-auto"}
-                                disabled
-                                onClick={() => handleEdit(value.id)}
+                                onClick={() => openModal(index)}
                             >
                                 Edit
                             </Button>
@@ -104,9 +114,16 @@ const Users = () => {
                     </tr>;
                 })}
             </MyTable>
-            <MyModal isHide={isOpen} setHide={() => {
-                setOpen(false)
-            }} header={"Add new user"}>
+            <MyModal isHide={isEditModalOpen} setHide={handleClose} header={"Edit row"}>
+                <MyForm headers={headers} getData={handleEdit}
+                        defaultValues={tableData ? tableData[docID] : undefined}/>
+            </MyModal>
+            <MyModal isHide={isOpen}
+                     setHide={() => {
+                         setOpen(false)
+                     }}
+                     header={"Add new user"}
+            >
                 <MyForm headers={headers} getData={getValue}/>
             </MyModal>
         </Container>
