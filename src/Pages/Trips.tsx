@@ -5,7 +5,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import MyTable from "../Components/MyTable/MyTable";
 import MyModal from "../Components/MyModal/MyModal";
 import MyForm from "../Components/MyForm/MyForm";
-import {collection, onSnapshot} from "firebase/firestore";
+import {collection, onSnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
 
 const Trips = () => {
 
@@ -24,11 +24,23 @@ const Trips = () => {
             console.log(data)
             setTableData(data)
         })
-               return ()=>{
+        return () => {
             unsub();
         }
     }, [])
 
+    async  function handleEdit(docId: string) {
+        // const tripsRed = doc(db, "trips", docId);
+        // console.log("Doc id", docId)
+        // await updateDoc(tripsRed, {
+        //     passangersAmount: "20"
+        // });
+    }
+    async  function handleDelete(docId: string) {
+        console.log("Doc id", docId)
+        const tripsRed = doc(db, "trips", docId);
+        await deleteDoc(tripsRed);
+    }
     function getValue(data: any) {
         addFireStore({db: db, setCollection: collectionType.trips, addTrip: data})
             .then(result => {
@@ -38,6 +50,7 @@ const Trips = () => {
                 console.log(error)
             })
     }
+
     return (
         <Container>
             <Row>
@@ -45,11 +58,11 @@ const Trips = () => {
                     <h2 className="h2 mt-3">Trips</h2>
                 </Col>
                 <Col>
-                    <Button className={"d-block ml-auto"} onClick={()=> setOpen(true)}>Add new trip</Button>
+                    <Button className={"d-block ml-auto"} onClick={() => setOpen(true)}>Add new trip</Button>
                 </Col>
             </Row>
             <MyTable tableHeaders={headers}>
-                { tableData && tableData.map((value: any) => {
+                {tableData && tableData.map((value: any) => {
                     return <tr key={value.docID}>
                         <td>{value.driverID}</td>
                         <td>{value.driverName}</td>
@@ -57,10 +70,27 @@ const Trips = () => {
                         <td>{value.origin}</td>
                         <td>{value.passangersAmount}</td>
                         <td>{value.vehiclePlateNumber}</td>
+                        <td>
+                            <Button
+                            variant="outline-primary"
+                            className={"m0-auto"}
+                            disabled
+                            onClick={() => handleEdit(value.docID)}
+                        >
+                            Edit
+                        </Button>
+                            <Button
+                                variant="outline-primary"
+                                className={"m0-auto ml-2"}
+                                onClick={() => handleDelete(value.docID)}
+                            >
+                                Delete
+                            </Button>
+                        </td>
                     </tr>;
                 })}
             </MyTable>
-            <MyModal isHide={isOpen} setHide={()=>setOpen(false)} header={"Add new Trip"}>
+            <MyModal isHide={isOpen} setHide={() => setOpen(false)} header={"Add new Trip"}>
                 <MyForm headers={headers} getData={getValue}/>
             </MyModal>
         </Container>

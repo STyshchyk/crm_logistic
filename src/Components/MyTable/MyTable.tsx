@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import {retry} from "@reduxjs/toolkit/query";
 import {collectionType, db, getFireStore, IFireTrip, IFireUser} from "../../firebase";
 import {collection} from "firebase/firestore/lite";
@@ -22,6 +22,7 @@ interface IMyTable {
 const MyTable = ({tableHeaders, children}: IMyTable) => {
 
     return (
+        <>
         <Table striped bordered className={"mt-5"}>
             <thead>
             <tr>
@@ -32,8 +33,11 @@ const MyTable = ({tableHeaders, children}: IMyTable) => {
             </thead>
             <tbody>
                     {children}
+
             </tbody>
         </Table>
+
+        </>
     );
 };
 

@@ -5,8 +5,10 @@ import {addFireStore, collectionType, db, getFireStore, IFireUser} from "../fire
 import Button from "react-bootstrap/Button";
 import MyModal from "../Components/MyModal/MyModal";
 import MyForm from "../Components/MyForm/MyForm";
-import {collection, doc, onSnapshot} from "firebase/firestore"
+import {collection, deleteDoc, doc, onSnapshot, updateDoc} from "firebase/firestore"
 import {set} from "react-hook-form";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 interface IUsers extends IFireUser {
     id: string
@@ -43,7 +45,23 @@ const Users = () => {
                 console.log(error)
             })
     }
-
+    async  function handleEdit(docId: string) {
+       // const tripsRed = doc(db, "users", docId);
+        console.log("Doc id", docId)
+        // await updateDoc(tripsRed, {
+        //     passangersAmount: "20"
+        // });
+    }
+    async  function handleDelete(docId: string) {
+        console.log("Doc id", docId)
+        const tripsRed = doc(db, "users", docId);
+        await deleteDoc(tripsRed)
+            .then(res =>{
+            console.log(res)
+        })
+            .catch(error=>{})
+        console.log(error)
+    }
     return (
         <Container>
             <Row>
@@ -66,6 +84,23 @@ const Users = () => {
                         <td>{value.email}</td>
                         <td>{value.number}</td>
                         <td>{value.role}</td>
+                        <td>
+                            <Button
+                                variant="outline-primary"
+                                className={"m0-auto"}
+                                disabled
+                                onClick={() => handleEdit(value.id)}
+                            >
+                                Edit
+                            </Button>
+                            <Button
+                                variant="outline-primary"
+                                className={"m0-auto ml-2"}
+                                onClick={() => handleDelete(value.id)}
+                            >
+                                Delete
+                            </Button>
+                        </td>
                     </tr>;
                 })}
             </MyTable>

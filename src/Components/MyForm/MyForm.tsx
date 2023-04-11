@@ -6,25 +6,30 @@ import styles from "./MyForm.module.scss"
 
 interface IForm {
     headers: string[];
-    getData: (data: any)=>void
+    getData: (data: any) => void
+    defaultValues?: string[];
 }
 
-const MyForm = ({headers, getData}: IForm) => {
-
+const MyForm = ({headers, getData, defaultValues}: IForm) => {
+    const defValues = {
+        ...defaultValues
+    }
     const {register, handleSubmit, formState: {errors}} = useForm({
-        mode: "onChange"
+        mode: "onChange",
+
     });
     const onSubmit = (data: any) => getData(data);
 
-     return (
+    return (
         <Form onSubmit={handleSubmit(onSubmit)}>
-            {!!headers && headers.map((elem) => {
+            {!!headers && headers.map((elem:any) => {
                 return (
                     <Form.Group key={elem} className="mb-3" controlId="formBasicPassword">
                         <Form.Label>{elem.toUpperCase()}</Form.Label>
-                        <Form.Control type="text" placeholder={`Enter ${elem}`} {...register(`${elem}`, {
+                        <Form.Control type="text"  placeholder={`Enter ${elem}`} {...register(`${elem}`, {
                             required: true,
-                            maxLength: {value: 20, message: "max lenght is 4"},
+
+                            maxLength: {value: 35, message: "max lenght is 35"},
                             minLength: {value: 3, message: "min lenght is 3"}
                         })}/>
                         {errors?.[`${elem}`] && errors?.[`${elem}`]?.type === "required" &&
